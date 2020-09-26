@@ -10,10 +10,13 @@ import { SESSION_SECRET } from "./util/secrets";
 
 import * as userController from "./controllers/user";
 import * as authController from "./controllers/auth";
+import * as fileController from "./controllers/file";
 
 
 // Create Express server
 const app = express();
+
+const apiRouter = express.Router();
 
 // Express configuration
 app.set("port", process.env.PORT || 3000);
@@ -40,13 +43,17 @@ app.use((req, res, next) => {
 });
 
 app.use(
-  express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
+  express.static(path.join(__dirname, "public"))
 );
 
 /**
  * Primary app routes.
  */
-app.post("/login", userController.postLogin);
-app.get("/logout", authController.authenticateJWT, userController.logout);
+apiRouter.post("/login", userController.postLogin);
+apiRouter.get("/logout", authController.authenticateJWT, userController.logout);
+apiRouter.get("/fileList", authController.authenticateJWT, fileController.getFileList);
+apiRouter.get("/file/:name", authController.authenticateJWT, fileController.downloadFile);
+
+app.use("/api", apiRouter);
 
 export default app;

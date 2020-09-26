@@ -24,3 +24,5 @@ if (!SESSION_SECRET) {
     logger.error("No USERNAME&PASSWORD environment variable.");
     process.exit(1);
 }
+
+export const FILE_DIR = process.env.FILE_DIR;
