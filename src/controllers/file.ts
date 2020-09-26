@@ -19,5 +19,5 @@ export const downloadFile = async (
   res: Response,
 ) => {
   const fileName = req.params.name;
-  res.sendFile(`${FILE_DIR}/${fileName}`);
+  res.download(`${FILE_DIR}/${fileName}`);
 };
