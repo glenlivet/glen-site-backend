@@ -42,10 +42,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  express.static(path.join(__dirname, "public"))
-);
-
 /**
  * Primary app routes.
  */
@@ -55,5 +51,13 @@ apiRouter.get("/fileList", authController.authenticateJWT, fileController.getFil
 apiRouter.get("/file/:name", authController.authenticateJWT, fileController.downloadFile);
 
 app.use("/api", apiRouter);
+
+app.use(
+  express.static(path.join(__dirname, "public"))
+);
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 export default app;
